@@ -88,4 +88,3 @@
   </div>
 </section>
 
-<!-- Search Section -->

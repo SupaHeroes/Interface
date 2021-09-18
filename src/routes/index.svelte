@@ -2,6 +2,7 @@
   import Sbutton from "@comp/sbutton.svelte";
 </script>
 
+<!-- Hero Section -->
 <section class=" text-gray-200 ">
   <div
     class="container flex flex-col items-center px-5 py-16 mx-auto md:flex-row lg:px-28"
@@ -86,3 +87,5 @@
     </div>
   </div>
 </section>
+
+<!-- Search Section -->

@@ -9,9 +9,9 @@
 </script>
 
 <!-- Navbar -->
-<div class="items-center bg-supadark text-white antialiased">
+<div class="items-center bg-supadark text-white antialiased ">
   <div
-    class="items-center pt-4 justify-between w-full px-5 overflow-y-auto whitespace-nowrap scroll-hidden"
+    class="items-center pt-4 justify-between w-full px-5 overflow-y-auto whitespace-nowrap scroll-hidden pb-4 border-b border-supadark-light"
   >
     <!-- Tablet nav -->
     <div class=" flex-col mx-auto md:hidden flex overflow-hidden">
@@ -157,7 +157,7 @@
 <!-- Footer -->
 <div class="items-center ">
   <footer
-    class="text-gray-200 transition duration-500 ease-in-out transform bg-supadark"
+    class="text-gray-200 transition duration-500 ease-in-out transform bg-supadark border-t border-supadark-light"
   >
     <div class="flex flex-col flex-wrap justify-center p-5 md:flex-row">
       <nav

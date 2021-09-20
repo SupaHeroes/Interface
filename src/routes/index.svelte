@@ -3,16 +3,16 @@
 </script>
 
 <!-- Hero Section -->
-<section class=" text-gray-200 ">
+<section class=" text-gray-300 ">
   <div
     class="container flex flex-col items-center px-5 py-16 mx-auto md:flex-row lg:px-28"
   >
     <div
       class="flex flex-col items-start w-full pt-0 mb-16 text-left lg:flex-grow md:w-1/2 xl:mr-20 md:pr-24 md:mb-0 "
     >
-      <h1 class="mb-8 text-2xl font-bold text-left  lg:text-4xl">
+      <h1 class="mb-8 text-2xl font-bold text-left text-gray-50  lg:text-4xl">
         The Trustless <b
-          class="text-transparent bg-clip-text bg-gradient-to-r from-supagreen-dark to-supagreen transition duration-500 ease-in-out transform"
+          class="text-transparent bg-clip-text bg-gradient-to-r from-supagreen-dark to-supagreen transition duration-1000 ease-in-out transform"
         >
           Crowdfunding
       </b>

@@ -5,7 +5,13 @@
   import Time from "svelte-time";
 
   let project = data["data"];
-  let tabs = ["Story", "Media", "Links"];
+  let tabs = ["Story", "Roadmap", "News"];
+  let activeTab = "Story";
+
+  function changeTab(name){
+    activeTab = name;
+    console.log(activeTab);
+  }
 </script>
 
 <div class=" w-11/12 max-w-7xl mx-auto pt-10 text-gray-200 ">
@@ -43,15 +49,16 @@
   <main class="flex flex-wrap">
     <div class="lg:w-3/4 w-full">
       <div class="flex flex-row w-full">
-        {#each tabs as tab}
-          <p
-            class=" border-b border-l lg:border-r-0 border-r text-center text-lg py-2 text-supagreen-light flex-grow border-supadark-light"
+        {#each tabs as tab, i}
+          <button
+          on:click={() =>changeTab(tabs[i])}
+            class="{activeTab == tabs[i] ? "underline text-supagreen-dark" : "text-supagreen-light"} border-b border-l lg:border-r-0 border-r text-center text-lg py-2  flex-grow border-supadark-light"
           >
             {tab}
-          </p>
+          </button>
         {/each}
       </div>
-      <p class=" flex-grow pt-6 lg:pr-10 pr-0">{project["desc"]}</p>
+      <p class=" flex-grow pt-6 lg:pr-10 pr-0">{project[activeTab]}</p>
     </div>
     <div
       class=" px-7 py-5 space-y-4 lg:w-1/5 w-full flex-grow lg:border-l border-l-0 border-supadark-light"
@@ -74,3 +81,9 @@
     </div>
   </main>
 </div>
+
+<style>
+  button {
+    outline: none;
+}
+</style>

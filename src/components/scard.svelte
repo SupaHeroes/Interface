@@ -1,4 +1,5 @@
 <script>
+  import Sprogress from "@comp/sprogress.svelte";
   import Time from "svelte-time";
   export let project;
 </script>
@@ -22,9 +23,7 @@
           ><Time relative timestamp="{project['ends_at']}"/></span
         >
       </div>
-      <div class=" bg-gray-600 rounded-full mb-2">
-        <div class="bg-supagreen py-1 rounded-full" style="width: {((project['amount']/project['goal'])*100).toFixed(2) + "%"};"></div>
-      </div>
+      <Sprogress max={project['goal']} value={project['amount']}></Sprogress>
       <h1 class=" py-3 font-bold">{project['title']} | {project['subtitle']}</h1>
       <p class=" text-gray-400 font-light truncate">{project['desc']}</p>
       <button class="py-4 w-full text-center" on:click>Read More</button>

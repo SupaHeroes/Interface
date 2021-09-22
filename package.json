@@ -22,5 +22,8 @@
 		"tslib": "^2.0.0",
 		"typescript": "^4.4.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"moralis": "^0.0.54"
+	}
 }

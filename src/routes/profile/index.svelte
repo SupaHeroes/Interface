@@ -1,4 +1,6 @@
 <script>
+import { goto } from "$app/navigation";
+
   import Sbutton from "@comp/sbutton.svelte";
   import Sprogress from "@comp/sprogress.svelte";
   import Time from "svelte-time";
@@ -37,7 +39,7 @@
     <img class="rounded-full w-12 h-12" src={user["avatar"]} alt="avatar" />
     <h1 class="text-3xl self-center">{user["name"]}</h1>
     <div class="flex-grow" />
-    <Sbutton>Start a Campaign</Sbutton>
+    <Sbutton on:click={async () => await goto("/profile/start")}>Start a Campaign</Sbutton>
   </div>
 
   <!-- Tabs -->

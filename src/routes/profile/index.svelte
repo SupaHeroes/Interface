@@ -4,11 +4,22 @@ import { goto } from "$app/navigation";
   import Sbutton from "@comp/sbutton.svelte";
   import Sprogress from "@comp/sprogress.svelte";
   import Time from "svelte-time";
+  import { sUser } from "@lib/auth";
+
+  let userAttr;
+
+  sUser.subscribe(value => {
+		// @ts-ignore
+		userAttr = value.attributes;
+    // @ts-ignore
+    console.log(value.attributes);
+	});
 
   const user = {
     avatar:
       "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    name: "John Jones",
+    // @ts-ignore
+    name: userAttr.username,
   };
 
   const dummyCampaign = [

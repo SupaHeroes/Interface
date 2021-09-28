@@ -2,7 +2,8 @@
   import Sbutton from "@comp/sbutton.svelte";
   import "../app.postcss";
   import { onMount } from "svelte";
-import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
+  import { login, sUser, logout } from "@lib/auth";
 
   let isExpanded = false;
 
@@ -10,29 +11,12 @@ import { goto } from "$app/navigation";
     isExpanded = !isExpanded;
   }
 
-  // @ts-ignore
-  const sUser = async () => await Moralis.User.current();
+  let user;
 
-  onMount(async () => {
-    // @ts-ignore
-    Moralis.initialize("aze1Bx6dSyulR75EQ9cuMiKPeUAqaHIAqc3wikk5");
-    // @ts-ignore
-    Moralis.serverURL = "https://chivuvg3lrut.grandmoralis.com:2053/server";
-    // await Moralis.Web3.enable();
-  });
+  sUser.subscribe(value => {
+		user = value;
+	});
 
-  async function connectWallet() {
-    console.log("clck");
-    try {
-      // @ts-ignore
-      const user = await Moralis.Web3.authenticate();
-      if (user) {
-        console.log(user);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
 </script>
 
 <!-- Navbar -->
@@ -117,7 +101,7 @@ import { goto } from "$app/navigation";
             </li>
             <li>
               <button
-                on:click={connectWallet}
+                on:click={login}
                 class="px-4 py-1 mr-1 text-base text-blueGray-500 transition duration-500 ease-in-out transform rounded-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:text-supagreen "
                 >Connect Wallet</button
               >
@@ -170,11 +154,21 @@ import { goto } from "$app/navigation";
           </li>
         </ul>
       </nav>
-      {#if sUser == null}
-      <Sbutton on:click={connectWallet}>Connect Wallet</Sbutton>
+      {#if user == null}
+        <Sbutton on:click={login}>Connect Wallet</Sbutton>
       {:else}
-      <div class="flex-grow"></div>
-      <button on:click={async () => goto("/profile")} ><img width="36px" height="36px" class="rounded-full bg-white object-contain" src="{sUser['avatar'] != undefined ? sUser['avatar'] : "https://ui-avatars.com/api/?name=Supa+pol"}" alt=""/></button>
+        <div class="flex-grow" />
+        <button on:click={async () => goto("/profile")}
+          ><img
+            width="36px"
+            height="36px"
+            class="rounded-full bg-white object-contain"
+            src={user["avatar"] != undefined
+              ? user["avatar"]
+              : "https://ui-avatars.com/api/?name=Supa+pol"}
+            alt=""
+          /></button
+        >
       {/if}
     </div>
   </div>
@@ -284,8 +278,9 @@ import { goto } from "$app/navigation";
     <p class="mx-auto pb-10 text-sm text-center text-gray-200  ">© 2021</p>
   </footer>
 </div>
+
 <style>
   button {
     outline: none;
-}
+  }
 </style>

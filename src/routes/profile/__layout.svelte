@@ -2,14 +2,16 @@
   import { goto } from "$app/navigation";
 
   import { onMount } from "svelte";
-
-  let sUser;
+  import { sUser } from "@lib/auth";
 
   onMount(async () => {
+    let user;
+    sUser.subscribe((value) => {
+      user = value;
+    });
     // @ts-ignore
-    sUser = await Moralis.User.current();
-    if (sUser == null) goto("/");
+    if (user == null | user.attributes == null) goto("/");
   });
 </script>
 
-<slot></slot>
+<slot />

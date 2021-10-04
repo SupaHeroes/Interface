@@ -24,6 +24,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"axios": "^0.22.0",
 		"moralis": "^0.0.54"
 	}
 }

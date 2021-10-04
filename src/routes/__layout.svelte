@@ -1,22 +1,25 @@
 <script>
   import Sbutton from "@comp/sbutton.svelte";
   import "../app.postcss";
-  import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import { login, sUser, logout } from "@lib/auth";
+  import { onMount } from "svelte";
+
+  let user;
+
+  onMount(() => {
+    // @ts-ignore
+    sUser.set(Moralis.User.current());
+    sUser.subscribe((value) => {
+      user = value;
+    });
+  });
 
   let isExpanded = false;
 
   function toggle() {
     isExpanded = !isExpanded;
   }
-
-  let user;
-
-  sUser.subscribe(value => {
-		user = value;
-	});
-
 </script>
 
 <!-- Navbar -->
@@ -71,13 +74,13 @@
           class="flex flex-wrap items-center justify-start text-base bg-supadark-dark w-full p-3"
         >
           <ul class="items-center inline-block list-none lg:inline-flex">
-            <li>
+            <!-- <li>
               <a
                 href="/"
                 class="px-4 py-1 mr-1 text-base text-blueGray-500 transition duration-500 ease-in-out transform rounded-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:text-supagreen "
                 >How It Works</a
               >
-            </li>
+            </li> -->
             <li>
               <a
                 href="/discover"
@@ -85,18 +88,19 @@
                 >Discover</a
               >
             </li>
+
             <li>
               <a
-                href="/"
+                href="/market"
                 class="px-4 py-1 mr-1 text-base text-blueGray-500 transition duration-500 ease-in-out transform rounded-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:text-supagreen "
-                >Heroes</a
+                >Market</a
               >
             </li>
             <li>
               <a
-                href="/"
+                href="/protocol"
                 class="px-4 py-1 mr-1 text-base text-blueGray-500 transition duration-500 ease-in-out transform rounded-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:text-supagreen "
-                >Market</a
+                >Protocol</a
               >
             </li>
             <li>
@@ -124,13 +128,13 @@
       </a>
       <nav class="flex flex-wrap items-center justify-start text-base ">
         <ul class="items-center  list-none inline-flex">
-          <li>
+          <!-- <li>
             <a
               href="/"
               class="px-4 py-1 mr-1 text-base text-blueGray-500 transition duration-500 ease-in-out transform rounded-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:text-supagreen "
               >How It Works</a
             >
-          </li>
+          </li> -->
           <li>
             <a
               href="/discover"
@@ -138,18 +142,19 @@
               >Discover</a
             >
           </li>
+
           <li>
             <a
-              href="/"
+              href="/market"
               class="px-4 py-1 mr-1 text-base text-blueGray-500 transition duration-500 ease-in-out transform rounded-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:text-supagreen "
-              >Heroes</a
+              >Market</a
             >
           </li>
           <li>
             <a
-              href="/"
+              href="/protocol"
               class="px-4 py-1 mr-1 text-base text-blueGray-500 transition duration-500 ease-in-out transform rounded-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:text-supagreen "
-              >Market</a
+              >Protocol</a
             >
           </li>
         </ul>

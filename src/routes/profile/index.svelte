@@ -1,5 +1,5 @@
 <script>
-import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
   import Sbutton from "@comp/sbutton.svelte";
   import Sprogress from "@comp/sprogress.svelte";
@@ -8,16 +8,16 @@ import { goto } from "$app/navigation";
 
   let userAttr;
 
-  sUser.subscribe(value => {
-		// @ts-ignore
-		userAttr = value.attributes;
+  sUser.subscribe((value) => {
+    // @ts-ignore
+    userAttr = value.attributes;
     // @ts-ignore
     console.log(value.attributes);
-	});
+  });
 
   const user = {
     avatar:
-      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "https://ui-avatars.com/api/?name=Supa+pol",
     // @ts-ignore
     name: userAttr.username,
   };
@@ -46,11 +46,14 @@ import { goto } from "$app/navigation";
 
 <div class="w-11/12 max-w-7xl mx-auto pt-10 text-gray-200">
   <!-- Name -->
-  <div class="flex flex-row space-x-4">
+  <div class="flex flex-wrap space-x-4">
     <img class="rounded-full w-12 h-12" src={user["avatar"]} alt="avatar" />
-    <h1 class="text-3xl self-center">{user["name"]}</h1>
-    <div class="flex-grow" />
-    <Sbutton on:click={async () => await goto("/profile/start")}>Start a Campaign</Sbutton>
+    <h1 class="text-3xl self-center flex-grow">{user["name"]}</h1>
+    <div>
+      <Sbutton on:click={async () => await goto("/profile/start")}
+        >Start a Campaign</Sbutton
+      >
+    </div>
   </div>
 
   <!-- Tabs -->
@@ -99,8 +102,9 @@ import { goto } from "$app/navigation";
               </p>
               <p
                 class="text-2xl text-center text-supagreen-light dark:text-gray-200"
-                >Ends <Time relative timestamp={e["ends_at"]} /></p
               >
+                Ends <Time relative timestamp={e["ends_at"]} />
+              </p>
             </section>
           </div>
         </div>

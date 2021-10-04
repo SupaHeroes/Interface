@@ -1,21 +1,25 @@
 <script>
-  import dummy from "@lib/dummy.json";
-  import Scard from "@comp/scard.svelte";
-import { goto } from "$app/navigation";
-
-  const data = dummy["data"];
- 
-
-  async function handleReadMore(path){
-      await goto('/project/' + path)
-  }
-
-
+  import { getNFTs } from "@lib/nft";
+  import { onMount } from "svelte";
+  let query;
+  let loaded = false;
+  let nfts = [];
+  onMount(() => {
+    getNFTs
+      .then(function (response) {
+        console.log(response.data);
+        // @ts-ignore
+        nfts = response.data.nfts;
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  });
 </script>
 
 <div class="w-5/6 mx-auto pt-20">
-  <!-- Search Section -->
-  <h1 class=" text-gray-200 pb-4">Discover Interesting Projects</h1>
+  <h1 class=" text-gray-200 pb-4">Convert your medals into NFTs</h1>
   <div
     class="  h-10 pl-3 pr-2 bg-supadark-dark border border-gray-700 rounded-md flex justify-between items-center relative"
   >
@@ -46,12 +50,11 @@ import { goto } from "$app/navigation";
   <h2 class=" text-gray-500 pt-4">
     Become a hero to others & collect medal of honors
   </h2>
-
-  <!-- Projects section -->
-  <div class="flex flex-wrap overflow-hidden  pt-6 space-x-8">
-    {#each data as e}
+  <div class="flex flex-wrap overflow-hidden  pt-6 space-x-0">
+    {#each nfts as e}
       <div class="w-full overflow-hidden  py-4 xl:w-1/3">
-        <Scard project={e} on:click={async () => await handleReadMore(e['title'])} />
+        <p class="pb-2 text-white font-bold text-lg">{e.metadata.name ?? "nft"}</p>
+        <img width="400" height="400" class=" object-cover" src={e.metadata.image} alt="">
       </div>
     {/each}
   </div>

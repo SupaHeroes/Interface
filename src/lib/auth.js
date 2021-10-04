@@ -1,8 +1,7 @@
 // @ts-nocheck
 import { writable } from 'svelte/store';
 
-export const sUser = writable(0);
-sUser.set(Moralis.User.current());
+export const sUser = writable(null);
 
 export async function login() {
   try {

@@ -14,5 +14,6 @@
     "display": "standalone",
     "scope": "/",
     "theme_color": "#24E795",
-    "description": "Decentralized Crowdfunding Platform based on SupaProtocol"
+    "description": "Decentralized Crowdfunding Platform based on SupaProtocol",
+    "skylink": "AQC8Bm74YWU56X62fw08ujHn1bdbC3cNikpUSCSQzdbLrw"
 }

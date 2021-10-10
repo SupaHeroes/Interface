@@ -1,25 +1,48 @@
 <script>
   import data from "@lib/dummy_project.json";
-  import Sbutton from "@comp/sbutton.svelte";
+  import {getProjectDetail, getSpecificCampaing, pledge} from "@lib/moralis";
   import Sprogress from "@comp/sprogress.svelte";
   import Time from "svelte-time";
+import { onMount } from "svelte";
+import { page } from "$app/stores";
 
   let project = data["data"];
   let tabs = ["Story", "Roadmap", "News"];
   let activeTab = "Story";
+  let contractDetail;
+  let campaignDetail;
+  let loading = true;
+
+  onMount(async() => {
+    console.log($page.params.slug);
+    await getSpecificCampaing($page.params.slug).then((value) => {
+      campaignDetail = value;
+      console.log(campaignDetail);
+    })
+    await getProjectDetail($page.params.slug).then((val)=> {
+      contractDetail = val;
+      console.log(val);
+      loading = false;
+    });
+    
+  })
 
   function changeTab(name){
     activeTab = name;
     console.log(activeTab);
   }
 </script>
-
+{#if loading}
+<div class=" flex justify-center items-center h-screen">
+  <div class="animate-spin rounded-full h-32 w-32 my-auto mx-auto border-b-2 border-supagreen"></div>
+</div>
+{:else}
 <div class=" w-11/12 max-w-7xl mx-auto pt-10 text-gray-200 ">
   <!-- Image & Title -->
   <div class="flex flex-wrap border-b border-supadark-light pb-8">
     <img
       class="w-full lg:w-3/4 shadow-xl md:h-96 h-72 object-cover rounded-xl"
-      src={project["image"]}
+      src={campaignDetail[0].get("image")}
       alt="test"
     />
     <div class=" w-full lg:w-1/5 lg:ml-8 ml-0">
@@ -27,21 +50,23 @@
         <a
           href="/"
           class="block text-2xl font-bold text-gray-200 dark:text-white"
-          >{project["amount"] + " " + project["currency"]}</a
+          >{contractDetail["Balance"] + " " + "eth"}</a
         >
         <div class=" flex-grow" />
         <span class="self-end text-supagreen-light"
-          >{project["goal"] + " " + project["currency"] + " goal"}</span
+          >{contractDetail["Target"] + " " + "eth" + " goal"}</span
         >
       </div>
-      <Sprogress max={project["goal"]} value={project["amount"]} />
+      <Sprogress max={contractDetail["Target"]} value={contractDetail["Balance"]} />
       <h1 class=" text-2xl">
-        {project["title"] + " | " + project["subtitle"]}
+        {campaignDetail[0].get("title")}
       </h1>
-
       <span class="text-sm text-supagreen-light dark:text-gray-200 self-end"
-        >Ends <Time relative timestamp={project["ends_at"]} /></span
+        >{"by " + contractDetail["Starter"]}</span
       >
+      <!-- <span class="text-sm text-supagreen-light dark:text-gray-200 self-end"
+        >Ends <Time relative timestamp={project["ends_at"]} /></span
+      > -->
     </div>
   </div>
 
@@ -58,7 +83,7 @@
           </button>
         {/each}
       </div>
-      <p class=" flex-grow pt-6 lg:pr-10 pr-0">{project[activeTab]}</p>
+      <p class=" flex-grow pt-6 lg:pr-10 pr-0">{campaignDetail[0].get("shortDesc")}</p>
     </div>
     <div
       class=" px-7 py-5 space-y-4 lg:w-1/5 w-full flex-grow lg:border-l border-l-0 border-supadark-light"
@@ -73,6 +98,7 @@
 
           <p class=" text-gray-400 font-light">{e["desc"]}</p>
           <button
+          on:click={async() => await pledge($page.params.slug, e["amount"])}
             class="w-full text-sm bg-supagreen-dark text-supadark py-2 mt-3 rounded"
             ><p>{"Fund " + e["amount"] + " " + project["currency"]}</p></button
           >
@@ -81,7 +107,7 @@
     </div>
   </main>
 </div>
-
+{/if}
 <style>
   button {
     outline: none;

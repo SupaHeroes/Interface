@@ -100,7 +100,7 @@ import { goto } from "$app/navigation";
 <section class="text-gray-300 bg-supadark min-h-screen">
   <div class="container flex flex-col px-5 py-16 mx-auto lg:items-center md:flex-row lg:px-28">
     <div class="w-full mb-10 lg:w-5/6 lg:max-w-lg md:w-1/2">
-      <img class="object-cover object-center rounded" alt="hero" loading="lazy" src="https://dummyimage.com/720x600/F3F4F7/8693ac">
+      <img class="object-cover object-center rounded" alt="hero" loading="lazy" src="https://bafybeifi3lbwevb3hwrigxcddabhlxccktbspca4a5mey6snytgj5zj4d4.ipfs.dweb.link/">
     </div>
     <div class="flex flex-col items-start text-left lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16">
       <h2 class="mb-8 text-xs font-semibold tracking-widest text-gray-50 uppercase title-font">Build your own</h2>

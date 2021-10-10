@@ -2,7 +2,7 @@
   import Sbutton from "@comp/sbutton.svelte";
   import "../app.postcss";
   import { goto } from "$app/navigation";
-  import { login, sUser, logout } from "@lib/auth";
+  import { login, sUser, logout } from "@lib/moralis";
   import { onMount } from "svelte";
 
   let user;
@@ -160,7 +160,10 @@
         </ul>
       </nav>
       {#if user == null}
-        <Sbutton on:click={login}>Connect Wallet</Sbutton>
+        <div class="flex">
+         <div class="flex-grow"></div>
+          <div><Sbutton on:click={login}>Connect Wallet</Sbutton></div>
+        </div>
       {:else}
         <div class="flex-grow" />
         <button on:click={async () => goto("/profile")}

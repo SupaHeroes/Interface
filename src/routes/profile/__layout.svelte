@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
 
   import { onMount } from "svelte";
-  import { sUser } from "@lib/auth";
+  import { sUser } from "@lib/moralis";
 
   onMount(async () => {
     let user;
@@ -10,7 +10,7 @@
       user = value;
     });
     // @ts-ignore
-    if (user == null | user.attributes == null) goto("/");
+    if (user == null) goto("/");
   });
 </script>
 

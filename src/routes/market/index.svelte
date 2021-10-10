@@ -1,5 +1,6 @@
 <script>
   import { getNFTs } from "@lib/nft";
+import Sbutton from "@comp/sbutton.svelte";
   import { onMount } from "svelte";
   let query;
   let loaded = false;
@@ -50,11 +51,12 @@
   <h2 class=" text-gray-500 pt-4">
     Become a hero to others & collect medal of honors
   </h2>
-  <div class="flex flex-wrap overflow-hidden  pt-6 space-x-0">
+  <div class="flex flex-wrap overflow-hidden  pt-6 space-x-0 pb-14">
     {#each nfts as e}
       <div class="w-full overflow-hidden  py-4 xl:w-1/3">
-        <p class="pb-2 text-white font-bold text-lg">{e.metadata.name ?? "nft"}</p>
-        <img width="400" height="400" class=" object-cover" src={e.metadata.image} alt="">
+        <p class="pb-2 text-center text-white font-bold text-lg">{e.metadata.name ?? "nft"}</p>
+        <img width="400" height="400" class=" object-cover mx-auto" src={e.metadata.image} alt="">
+        <div class=" max-w-xs mx-auto"><Sbutton>Buy with Medals</Sbutton></div>
       </div>
     {/each}
   </div>

@@ -4,23 +4,36 @@
   import Sbutton from "@comp/sbutton.svelte";
   import Sprogress from "@comp/sprogress.svelte";
   import Time from "svelte-time";
-  import { sUser } from "@lib/auth";
+  import { sUser, getCampaings } from "@lib/moralis";
+  import { onMount } from "svelte";
+import SEditor from "@comp/sEditor.svelte";
 
   let userAttr;
-
-  sUser.subscribe((value) => {
-    // @ts-ignore
-    userAttr = value.attributes;
-    // @ts-ignore
-    console.log(value.attributes);
-  });
-
-  const user = {
-    avatar:
-      "https://ui-avatars.com/api/?name=Supa+pol",
-    // @ts-ignore
-    name: userAttr.username,
+  let user = {
+    avatar: "",
+    name: "",
   };
+
+  let campaigns = [];
+
+  onMount(async () => {
+    // @ts-ignore
+    sUser.set(Moralis.User.current());
+    sUser.subscribe((value) => {
+      // @ts-ignore
+      userAttr = value;
+      console.log(value);
+      user = {
+        avatar: "https://ui-avatars.com/api/?name=Supa+pol",
+        // @ts-ignore
+        name: userAttr.get("username"),
+      };
+    });
+    await getCampaings().then((val)=> {
+      campaigns = val
+      console.log(val[0]);
+    })
+  });
 
   const dummyCampaign = [
     {
@@ -35,7 +48,7 @@
     },
   ];
 
-  const tabs = ["Campaigns", "Backings", "Medal"];
+  const tabs = ["Campaigns", "Pledges", "Medals"];
   let activeTab = "Campaigns";
 
   function changeTab(name) {
@@ -47,8 +60,12 @@
 <div class="w-11/12 max-w-7xl mx-auto pt-10 text-gray-200">
   <!-- Name -->
   <div class="flex flex-wrap space-x-4">
-    <img class="rounded-full w-12 h-12" src={user["avatar"]} alt="avatar" />
-    <h1 class="text-3xl self-center flex-grow">{user["name"]}</h1>
+    <img
+      class="rounded-full w-12 h-12"
+      src={user["avatar"] ?? ""}
+      alt="avatar"
+    />
+    <h1 class="text-3xl self-center flex-grow">{user["name" ?? ""]}</h1>
     <div>
       <Sbutton on:click={async () => await goto("/profile/start")}
         >Start a Campaign</Sbutton
@@ -72,22 +89,23 @@
 
   <!-- Body -->
   {#if activeTab == "Campaigns"}
-    {#each dummyCampaign as e}
+    {#each campaigns as e}
       <div class="flex flex-wrap overflow-hidden lg:-mx-px xl:-mx-1 mt-4">
         <div
           class="w-full overflow-hidden lg:my-px lg:px-px lg:w-full xl:my-1 xl:px-4 xl:w-1/2"
         >
-          <h2 class=" pb-3 text-2xl">{e["title"] + " | " + e["subtitle"]}</h2>
-          <Sprogress max={e["goal"]} value={e["amount"]} />
-          <div class="flex flex-row pb-3">
+       
+          <h2 class=" pb-3 text-2xl">{e.get("title")}</h2>
+          <!-- <Sprogress max={e["goal"]} value={e["amount"]} /> -->
+          <!-- <div class="flex flex-row pb-3">
             <h3 class="">{e["amount"] + " " + e["currency"]}</h3>
             <div class="flex-grow" />
             <h3 class="">{e["goal"] + " " + e["currency"]}</h3>
-          </div>
+          </div> -->
           <img
             class=" h-56  w-full rounded-2xl object-cover"
-            src={e["image"]}
-            alt={e["title"]}
+            src={e.get("image")}
+            alt={e.get("title")}
           />
         </div>
 
@@ -95,17 +113,7 @@
           class="w-full overflow-hidden lg:px-px my-4 lg:w-full xl:my-1 xl:px-4 xl:w-1/2"
         >
           <div class="w-full bg-supadark-light h-full rounded-2xl flex">
-            <section class="m-auto py-10">
-              <p class=" text-supagreen text-xl text-center">Campaign Pool</p>
-              <p class="text-center max-w-sm py-6">
-                Pool will be available after the campaign is successful
-              </p>
-              <p
-                class="text-2xl text-center text-supagreen-light dark:text-gray-200"
-              >
-                Ends <Time relative timestamp={e["ends_at"]} />
-              </p>
-            </section>
+            <SEditor campaign={e}></SEditor>
           </div>
         </div>
       </div>

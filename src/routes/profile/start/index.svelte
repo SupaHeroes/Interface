@@ -1,17 +1,40 @@
 <script>
   import Sbutton from "@comp/sbutton.svelte";
   import Sinput from "@comp/sinput.svelte";
+  import { createCampaign } from "@lib/moralis.js";
 
   let currentTab = "init";
 
-  function changeTab(tab) {
-    currentTab = tab;
+  let projectName;
+  let campaignGoal;
+  let projectContract;
+  let loading = false;
+
+  async function create() {
+    loading = true;
+    let myDate = new Date();
+    let goalDate = myDate.setMonth(myDate.getMonth() + 1).valueOf();
+    console.log(goalDate);
+    await createCampaign(projectName, campaignGoal, goalDate).then((val) => {
+      projectContract = val.events.OwnershipTransferred.address;
+      loading = false;
+      currentTab = "form1";
+    });
   }
 </script>
 
 <!-- Init > Forms > Smart Contract > Publish -->
 <!-- Init Tab -->
-{#if currentTab == "init"}
+{#if loading}
+<div class=" flex h-screen">
+  <div class=" mx-auto my-auto rounded-full animate-pulse bg-supagreen-dark">
+    <p class=" text-white text-xl animate-pulse text-center p-32">
+      Creating...
+    </p>
+  </div>
+</div>
+  
+{:else if currentTab == "init"}
   <section class="text-gray-200">
     <div
       class="container flex flex-col items-center px-5 pt-20 mx-auto  md:flex-row lg:px-28"
@@ -28,13 +51,24 @@
           Deploy your campaign in minutes, link your blogs and files with ease.
         </p>
         <div class="flex flex-col w-full gap-2 md:justify-start md:flex-row">
-          <Sinput placeholder="Project name" value="" />
+          <Sinput placeholder="Project name" bind:value={projectName} />
+        </div>
+        <div class="flex flex-col w-full gap-2 md:justify-start md:flex-row">
+          <input
+            type="number"
+            id="goal"
+            name="goal"
+            bind:value={campaignGoal}
+            placeholder="Project Goal"
+            class="w-full px-4 py-2 mt-2 text-base text-white transition duration-500 ease-in-out transform rounded-lg border border-gray-700 bg-supadark-dark focus:border-gray-500 focus:bg-supadark-light focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2"
+          />
         </div>
         <p class="w-full mt-2 mb-8 text-sm text-left text-gray-500">
           Let's make your dream a reality
         </p>
         <div class=" self-start">
-          <Sbutton on:click={() => changeTab("forms")}>Start Campaign</Sbutton>
+          <Sbutton on:click={async () => await create()}>Start Campaign</Sbutton
+          >
         </div>
       </div>
 
@@ -42,74 +76,13 @@
         <img
           class="object-cover object-center rounded-lg"
           alt="hero"
-          src="https://dummyimage.com/720x600/F3F4F7/8693ac"
+          src="https://bafybeib36fvt62cdf4ub43eckm7krnftxcjdc2mcuve2ft2wgn4dahalh4.ipfs.dweb.link/"
         />
       </div>
     </div>
   </section>
-{:else if currentTab == "forms"}
+{:else if currentTab == "form1"}
   <div class="container items-center px-5 py-12 lg:px-20 mx-auto">
-    <form
-      class="flex flex-col w-full p-10 px-8 pt-6 mx-auto my-6 mb-4 transition duration-500 ease-in-out transform lg:w-1/2 "
-    >
-      <section class="flex flex-col w-full h-full p-1 overflow-auto">
-        <header
-          class="flex flex-col items-center justify-center py-12 text-base text-gray-500 transition duration-500 ease-in-out transform bg-supadark-light border border-dashed rounded-lg focus:border-supagreen-light focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2"
-        >
-          <p
-            class="flex flex-wrap justify-center mb-3 text-base leading-7 text-gray-500"
-          >
-            <span>Drag and drop your</span>&nbsp;<span>files anywhere or</span>
-          </p>
-          <button
-            class="w-auto px-2 py-1 my-2 mr-2 text-gray-200 transition duration-500 ease-in-out transform border rounded-md hover:text-gray-600 text-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:bg-supagreen-dark"
-          >
-            Upload a file
-          </button>
-        </header>
-      </section>
-      <div class="relative pt-4">
-        <label for="title" class="text-base leading-7 text-gray-200">Title</label
-        >
-        <input
-          type="text"
-          id="title"
-          name="title"
-          placeholder="Title"
-          class="w-full px-4 py-2 mt-2 mr-4 text-base text-white transition duration-500 ease-in-out transform rounded-lg bg-supadark-dark border border-gray-700 focus:border-gray-500 focus:bg-supadark-light focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2"
-        />
-      </div>
-      <div class="relative mt-4">
-        <label for="website" class="text-base leading-7 text-gray-200">Website</label>
-        <input
-          type="link"
-          id="website"
-          name="website"
-          placeholder="http://supaheroes.io"
-          class="w-full px-4 py-2 mt-2 text-base text-white transition duration-500 ease-in-out transform rounded-lg border border-gray-700 bg-supadark-dark focus:border-gray-500 focus:bg-supadark-light focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2"
-        />
-      </div>
-      <div class="flex flex-wrap mt-4 mb-6 -mx-3">
-        <div class="w-full px-3">
-          <label class="text-base leading-7 text-gray-200" for="description">
-            Description
-          </label>
-          <textarea
-            class="w-full h-32 px-4 py-2 mt-2 text-base text-gray-200 transition duration-500 ease-in-out transform border border-gray-700 bg-supadark-dark  rounded-lg focus:border-supagreen-light focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 apearance-none autoexpand"
-            id="description"
-            type="text"
-            name="description"
-            placeholder="Message..."
-            required
-          />
-        </div>
-      </div>
-
-      <div class="pt-4">
-        <Sbutton on:click={() => changeTab("init")} class="w-full"
-          >Let's Go!</Sbutton
-        >
-      </div>
-    </form>
+    <h1 class="text-white text-center text-xl">congratulation! You have your campaign running, here is your smart contract <a href="https://kovan.etherscan.io/address/{projectContract}">link</a> </h1>
   </div>
 {/if}

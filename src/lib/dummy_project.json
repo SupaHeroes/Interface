@@ -11,31 +11,31 @@
     "classes": [
         {
           "name": "Friendly Neighbour",
-          "amount": 0.2,
+          "amount": 2,
           "desc": "Thank you for your help",
           "reward": ""
         },
         {
           "name": "Lifesaver",
-          "amount": 0.5,
+          "amount": 5,
           "desc": "You are very kind, we will reward you with a thank you NFT and mention your name on our twitter",
           "reward": ""
         },
         {
           "name": "Humanitarian",
-          "amount": 1,
+          "amount": 8,
           "desc": "You are the best, get everything from lifesaver and get an access to our private sale ICO",
           "reward": ""
         },
         {
           "name": "Superhero",
-          "amount": 2,
+          "amount": 10,
           "desc": "You are awesome! get everything from Humanitarian and a limited edition NFT and also 1-1 meeting via discord with our team",
           "reward": ""
         },
         {
           "name": "Guardian Angel",
-          "amount": 4,
+          "amount": 12,
           "desc": "Can't do this without you! get everything from Superhero and get listed as one of our founders",
           "reward": ""
         }

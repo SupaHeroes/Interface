@@ -1,16 +1,21 @@
 <script>
   import dummy from "@lib/dummy.json";
   import Scard from "@comp/scard.svelte";
-import { goto } from "$app/navigation";
+  import { getCampaings } from "@lib/moralis";
+  import { goto } from "$app/navigation";
+import { onMount } from "svelte";
+import { get } from "svelte/store";
 
   const data = dummy["data"];
- 
-
-  async function handleReadMore(path){
-      await goto('/project/' + path)
+  let campaigns = [];
+   onMount(async() => {
+    await getCampaings().then((val) => {
+      campaigns = val;
+    });
+   } )
+  async function handleReadMore(path) {
+    await goto("/project/" + path);
   }
-
-
 </script>
 
 <div class="w-5/6 mx-auto pt-20">
@@ -49,9 +54,12 @@ import { goto } from "$app/navigation";
 
   <!-- Projects section -->
   <div class="flex flex-wrap overflow-hidden  pt-6 space-x-8">
-    {#each data as e}
+    {#each campaigns as e}
       <div class="w-full overflow-hidden  py-4 xl:w-1/3">
-        <Scard project={e} on:click={async () => await handleReadMore(e['title'])} />
+        <Scard
+          project={e}
+          on:click={async () => await handleReadMore(e.get('contractAddress'))}
+        />
       </div>
     {/each}
   </div>

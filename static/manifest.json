@@ -2,6 +2,7 @@
     "short_name": "Supahero",
     "name": "Supahero App",
     "start_url": "/",
+    "providedBy": { "name": "Supabase", "url": "https://https://github.com/SupaHeroes" },
     "icons": [
       {
         "src": "favicon.png",
@@ -13,5 +14,5 @@
     "display": "standalone",
     "scope": "/",
     "theme_color": "#24E795",
-    "description": "Decentralized Crowdfunding Platform"
+    "description": "Decentralized Crowdfunding Platform based on SupaProtocol"
 }

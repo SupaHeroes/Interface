@@ -109,7 +109,7 @@ import { goto } from "$app/navigation";
       <div class="flex flex-col justify-left lg:flex-row">
         <Sbutton>Become a Supadev</Sbutton>
         <p class="mt-2 text-sm text-left text-blueGray-600 md:ml-6 md:mt-0"> Try now <br class="hidden lg:block">
-          <a href="/" class="inline-flex items-center font-semibold text-supagreen md:mb-2 lg:mb-0 hover:text-black " title="read more"> Check out our docs » </a>
+          <a href="https://github.com/SupaHeroes" class="inline-flex items-center font-semibold text-supagreen md:mb-2 lg:mb-0 hover:text-black " title="read more"> Github » </a>
         </p>
       </div>
     </div>
